@@ -15,8 +15,10 @@
         <p id="message"></p>
         <p id="loadingMessage" style="display: none;">Processing files, please wait...</p>
         <a href="{% url 'view-mappings' %}" id="viewMappingsLink" style="display: none;">View Mappings</a>
+    
+        <!-- Admin Button -->
+        <a href="{% url 'admin:index' %}" class="admin-button">Admin</a>
     </div>
-
     <!-- Include the CSRF token -->
     {% csrf_token %}
 

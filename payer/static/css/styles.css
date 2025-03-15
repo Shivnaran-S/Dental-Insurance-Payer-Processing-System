@@ -1,4 +1,4 @@
-/* Existing Styles */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 50px;
@@ -6,25 +6,69 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-.upload-container {
-    background-color: #ffffff;
+.container {
+    max-width: 1200px;
+    width: 100%;
     padding: 20px;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
 }
 
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333333;
+    text-align: center;
 }
 
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Link Styles */
+a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* File Input and Button Styles */
 input[type="file"] {
     margin-bottom: 20px;
     padding: 10px;
@@ -49,49 +93,37 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Message Styles */
 #message {
     margin-top: 20px;
     font-size: 14px;
     color: #333333;
+    text-align: center;
 }
 
-/* New Styles for Tables and Navigation */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+/* Loading Message Styles */
+#loadingMessage {
+    display: none;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #007bff;
+    text-align: center;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-a {
+/* Admin Button Styles */
+.admin-button {
     display: inline-block;
     margin-top: 20px;
-    color: #007bff;
+    padding: 10px 20px;
+    background-color: #28a745; /* Green color for the admin button */
+    color: white;
     text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
 }
 
-a:hover {
-    text-decoration: underline;
+.admin-button:hover {
+    background-color: #218838; /* Darker green on hover */
 }

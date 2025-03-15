@@ -87,6 +87,90 @@ class UploadView(APIView):
             if not uploaded_file:
                 return Response({"error": "No file uploaded."}, status=status.HTTP_400_BAD_REQUEST)
 
+            if not uploaded_file.name.endswith('.xlsx'):
+                return Response({"error": "Unsupported file format."}, status=status.HTTP_400_BAD_REQUEST)
+
+            self.process_xlsx(uploaded_file)
+            return Response({"message": "File processed successfully."}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.error(f"Error processing file: {e}", exc_info=True)
+            return Response({"error": "Processing error."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def process_xlsx(self, file):
+        workbook = openpyxl.load_workbook(file)
+        for sheet_name in workbook.sheetnames:
+            if sheet_name in ['Legend', 'Legend (1)', 'OpenDental']: continue
+            
+            sheet = workbook[sheet_name]
+            rows = sheet.iter_rows(values_only=True)
+            try: headers = next(rows)
+            except StopIteration: continue
+
+            payer_name_col = self.find_column_index(headers, ['Payer Name', 'Name', 'Payer', 'Payer Identification Information'])
+            payer_id_col = self.find_column_index(headers, ['Payer ID', 'ID'])
+            
+            if payer_name_col is None or payer_id_col is None: continue
+
+            for row in rows:
+                try:
+                    payer_name = self.clean_value(row[payer_name_col])
+                    payer_id = self.clean_value(row[payer_id_col])
+                    if payer_name and payer_id:
+                        self.process_payer(payer_name, payer_id)
+                except: pass
+
+    def find_column_index(self, headers, possible_names):
+        for name in possible_names:
+            if name in headers: return headers.index(name)
+        return None
+
+    def clean_value(self, value):
+        if value and isinstance(value, str):
+            return re.sub(r'^="([^"]*)"$', r'\1', value).strip()
+        return value
+
+    def process_payer(self, payer_name, payer_id):
+        existing = PayerDetails.objects.filter(payer_number=payer_id).first()
+        if existing:
+            payer = existing.payer
+        else:
+            group_name = self.extract_group_name(payer_name)
+            payer_group = self.get_or_create_group(group_name)
+            payer = self.get_or_create_payer(payer_name, payer_group)
+        PayerDetails.objects.get_or_create(payer=payer, name=payer_name, payer_number=payer_id)
+
+    def extract_group_name(self, name):
+        if ' of ' in name: return name.split(' of ')[0].strip()
+        parts = name.split()
+        return ' '.join(parts[:2]) if len(parts) > 1 else name
+
+    def get_or_create_group(self, group_name):
+        groups = PayerGroups.objects.all()
+        if groups:
+            match, score = process.extractOne(group_name, [g.name for g in groups], scorer=fuzz.token_sort_ratio)
+            if score > 80: return groups.get(name=match)
+        return PayerGroups.objects.create(name=group_name)
+
+    def get_or_create_payer(self, payer_name, group):
+        payers = Payers.objects.filter(payer_group=group)
+        if payers:
+            match, score = process.extractOne(payer_name, [p.name for p in payers], scorer=fuzz.token_set_ratio)
+            if score > 80: return payers.get(name=match)
+        return Payers.objects.create(name=payer_name, payer_group=group)
+
+'''
+class UploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            PayerDetails.objects.all().delete()
+            Payers.objects.all().delete()
+            PayerGroups.objects.all().delete()
+
+            uploaded_file = request.FILES.get('file')
+            if not uploaded_file:
+                return Response({"error": "No file uploaded."}, status=status.HTTP_400_BAD_REQUEST)
+
             file_name = uploaded_file.name
             if not file_name.endswith('.xlsx'):
                 return Response({"error": "Unsupported file format. Please upload an XLSX file."}, status=status.HTTP_400_BAD_REQUEST)
@@ -178,7 +262,7 @@ class UploadView(APIView):
         else:
             best_match, score = None, 0
 
-        if score >= 80:
+        if score >= 70:
             payer_group = payer_groups.get(name=best_match)
             logger.debug(f"Found similar payer group: {payer_group}")
         else:
@@ -196,7 +280,7 @@ class UploadView(APIView):
         else:
             best_match, score = None, 0
 
-        if score >= 80:
+        if score >= 50:
             payer = payers.get(name=best_match)
             logger.debug(f"Found similar payer: {payer}")
         else:
@@ -216,4 +300,4 @@ class UploadView(APIView):
 
     def extract_payer_group_name(self, payer_name):
         return payer_name.split()[0]
-
+'''
