@@ -1,0 +1,22 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Mappings</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>View Mappings</h1>
+        <ul>
+            <li><a href="{% url 'view-payer-details' %}">View Payer Details</a></li>
+            <li><a href="{% url 'view-payers' %}">View Payers</a></li>
+            <li><a href="{% url 'view-payer-groups' %}">View Payer Groups</a></li>
+            <li><a href="{% url 'view-payer-mappings' %}">View Payer Mappings</a></li>
+            <li><a href="{% url 'view-payer-group-mappings' %}">View Payer Group Mappings</a></li>
+        </ul>
+    </div>
+</body>
+</html>

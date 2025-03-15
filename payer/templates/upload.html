@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <div class="upload-container">
+    <div class="container">
         <h1>Upload XLSX File</h1>
         <input type="file" id="fileInput" accept=".xlsx">
         <button id="uploadButton">Upload</button>
         <p id="message"></p>
         <p id="loadingMessage" style="display: none;">Processing files, please wait...</p>
+        <a href="{% url 'view-mappings' %}" id="viewMappingsLink" style="display: none;">View Mappings</a>
     </div>
 
     <!-- Include the CSRF token -->
@@ -22,116 +23,3 @@
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload CSV or XLSX</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <div class="upload-container">
-        <h1>Upload CSV or XLSX File</h1>
-        <input type="file" id="csvFile" accept=".csv, .xlsx">
-        <button id="uploadButton">Upload</button>
-        <p id="message"></p>
-    </div>
-
-    {% csrf_token %}
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>-->
-<!--{%load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload CSV</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <div class="upload-container">
-        <h1>Upload CSV File</h1>
-        <input type="file" id="csvFile" accept=".csv">
-        <button id="uploadButton">Upload</button>
-        <p id="message"></p>
-    </div>
-
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>-->
-<!--
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload CSV</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
-        }
-        .upload-container {
-            max-width: 400px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        input[type="file"] {
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="upload-container">
-        <h1>Upload CSV File</h1>
-        <input type="file" id="csvFile" accept=".csv">
-        <button onclick="uploadFile()">Upload</button>
-        <p id="message"></p>
-    </div>
-
-    <script>
-        function uploadFile() {
-            const fileInput = document.getElementById('csvFile');
-            const message = document.getElementById('message');
-
-            if (!fileInput.files.length) {
-                message.textContent = "Please select a file.";
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('/upload-csv/', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                message.textContent = data.message || data.error;
-            })
-            .catch(error => {
-                message.textContent = "An error occurred while uploading the file.";
-            });
-        }
-    </script>
-</body>
-</html>
--->

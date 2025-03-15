@@ -1,3 +1,4 @@
+/* Existing Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 50px;
@@ -52,4 +53,45 @@ button:hover {
     margin-top: 20px;
     font-size: 14px;
     color: #333333;
+}
+
+/* New Styles for Tables and Navigation */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }

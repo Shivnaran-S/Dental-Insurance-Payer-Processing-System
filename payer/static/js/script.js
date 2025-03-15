@@ -2,6 +2,7 @@ document.getElementById('uploadButton').addEventListener('click', function () {
     const fileInput = document.getElementById('fileInput');
     const message = document.getElementById('message');
     const loadingMessage = document.getElementById('loadingMessage');
+    const viewMappingsLink = document.getElementById('viewMappingsLink');
 
     if (!fileInput.files.length) {
         message.textContent = "Please select a file.";
@@ -29,6 +30,9 @@ document.getElementById('uploadButton').addEventListener('click', function () {
     .then(response => response.json())
     .then(data => {
         message.textContent = data.message || data.error;
+        if (data.message === "File processed successfully.") {
+            viewMappingsLink.style.display = 'block';  // Show the "View Mappings" link
+        }
     })
     .catch(error => {
         console.error("Error:", error);  // Log the error to the console

@@ -1,0 +1,36 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payer Details</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Payer Details</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Payer ID</th>
+                    <th>Original Payer Name</th>
+                    <th>Deduplicated Payer Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detail in payer_details %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ detail.payer_number }}</td>
+                    <td>{{ detail.name }}</td>
+                    <td>{{ detail.payer.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'view-mappings' %}">Back to Mappings</a>
+    </div>
+</body>
+</html>

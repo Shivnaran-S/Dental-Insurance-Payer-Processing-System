@@ -1,0 +1,32 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payer Groups</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Payer Groups</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Payer Group Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in payer_groups %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ group.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'view-mappings' %}">Back to Mappings</a>
+    </div>
+</body>
+</html>
